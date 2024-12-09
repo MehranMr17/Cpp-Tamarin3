@@ -204,8 +204,9 @@ void question6() {
 }
 
 void question7() {
-	char A[100], B[100], D[2][32];
+	char A[100], B[100];
 	string C;
+
 	cout << "Enter the first string: ";
 	cin.ignore();
 	cin.getline(A, 100);
@@ -215,15 +216,20 @@ void question7() {
 	C = A;
 	C += B;
 
-	map<char, int> charCount;
+	int charCount[256] = { 0 }; 
 
 	for (char ch : C) {
-		ch = tolower(ch);
-		charCount[ch]++;
+		int code = int(ch);
+		if (code < 97) {
+			ch = char(code + 32);
+		}
+		charCount[(int)ch]++; 
 	}
 
-	for (auto& entry : charCount) {
-		cout << "'" << entry.first << "': " << entry.second << endl;
+	for (int i = 0; i < 256; i++) {
+		if (charCount[i] > 0) { 
+			cout << "'" << (char)i << "': " << charCount[i] << endl;
+		}
 	}
 
 
