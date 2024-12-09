@@ -1,7 +1,15 @@
 
 #include<iostream>
+#include <map>
+#include <cctype>
+#include <string>
 using namespace std;
 
+struct student {
+	char name[10];
+	char field[10];
+	float avr;
+};
 
 void question1() {
 
@@ -195,9 +203,8 @@ void question6() {
 
 }
 
-
 void question7() {
-	char A[100], B[100];
+	char A[100], B[100], D[2][32];
 	string C;
 	cout << "Enter the first string: ";
 	cin.ignore();
@@ -208,10 +215,138 @@ void question7() {
 	C = A;
 	C += B;
 
-	cout << C;
+	map<char, int> charCount;
+
+	for (char ch : C) {
+		ch = tolower(ch);
+		charCount[ch]++;
+	}
+
+	for (auto& entry : charCount) {
+		cout << "'" << entry.first << "': " << entry.second << endl;
+	}
 
 
 }
+
+void question8() {
+
+	student students[10];
+
+	student temp;
+
+
+	for (int i = 0; i < 10; i++) {
+		cout << "stdent name" << i + 1 << ": ";
+		cin >> students[i].name;
+
+		cout << "student field" << i + 1 << ": ";
+		cin >> students[i].field;
+
+		cout << "studaent average" << i + 1 << ": ";
+		cin >> students[i].avr;
+	}
+
+	for (int i = 0; i < 9; i++) {
+		for (int j = 0; j < 9 - i; j++) {
+			if (students[j].avr < students[j + 1].avr) {
+				temp = students[j];
+				students[j] = students[j + 1];
+				students[j + 1] = temp;
+			}
+		}
+	}
+
+	for (int i = 0; i < 10; i++) {
+		cout << "name: " << students[i].name << ", field: " << students[i].field << ", avreage: " << students[i].avr << endl;
+	}
+}
+
+int getNumber(char ch) {
+	switch (ch) {
+	case '0':
+		return 0;
+	case '1':
+		return 1;
+		break;
+	case '2':
+		return 2;
+		break;
+	case '3':
+		return 3;
+		break;
+	case '4':
+		return 4;
+		break;
+	case '5':
+		return 5;
+		break;
+	case '6':
+		return 6;
+		break;
+	case '7':
+		return 7;
+		break;
+	case '8':
+		return 8;
+		break;
+	case '9':
+		return 9;
+		break;
+	default:
+		return 10;
+		break;
+	}
+}
+
+
+void question9() {
+	char input[100];
+	int sum = 0;
+	int number[10] = { 0 };
+	int numIndex = 0;
+
+	cout << "Enter String : ";
+	cin.ignore();
+	cin.getline(input, 100);
+
+	for (int i = 0; input[i] != '\0'; i++) {
+		char ch = input[i];
+		int num = getNumber(ch);
+
+		if (num != 10) {
+			number[numIndex++] = num;
+		}
+		else {
+			if (numIndex > 0) {
+				number[numIndex] = '~'; 
+
+				int b = 0;
+				for (int i = 0; number[i] != '~'; i++) {
+					b = (b * 10) + number[i];
+				}
+
+				sum += b;  
+				numIndex = 0; 
+			}
+		}
+	}
+
+	if (numIndex > 0) {
+		number[numIndex] = '~';
+		int b = 0;
+		for (int i = 0; number[i] != '~'; i++) {
+			b = (b * 10) + number[i];
+		}
+		sum += b;
+	}
+
+	cout << "sum : " << sum << endl;
+
+}
+
+
+
 
 void main() {
 	cout << "Whith question do you wnat to run? ";
@@ -240,8 +375,10 @@ void main() {
 		question7();
 		break;
 	case 8:
+		question8();
 		break;
 	case 9:
+		question9();
 		break;
 
 	default:
